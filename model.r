@@ -3,14 +3,14 @@ x=read.table("data.txt",header=T);
 mi=1-min(x$N);
 model_r2=0;
 founders=0;
-vr2=mi:100;
-for(i in mi:100){
+vr2=mi:1000;
+for(i in mi:1000){
 	vr2[i-mi+1]=cor(x$T,log10(x$N+i))^2;
 	if(vr2[i-mi+1]>model_r2){	model_r2=vr2[i-mi+1];	founders=i;	}
 }
 
 png("FoundersEstimation.png",width=768,height=512);
-plot(mi:100,vr2,type='l',xlab="Number of Founders", ylab="R2",	main=paste(name," Founders Estimation"),lwd=2);
+plot(mi:1000,vr2,type='l',xlab="Number of Founders", ylab="R2",	main=paste(name," Founders Estimation"),lwd=2);
 abline(v=founders,col=2,lwd=2);
 legend("topright", paste("Founders=",founders));
 dev.off();
