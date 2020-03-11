@@ -1,4 +1,4 @@
-name="Outside-China"
+name="Japan"
 x=read.table("data.txt",header=T);
 mi=1-min(x$N);
 model_r2=0;
@@ -16,8 +16,8 @@ legend("topright", paste("Founders=",founders));
 dev.off();
 
 png("Log10Trend.png",width=768,height=512);
-plot(x$T,log10(x$N+founders),pch=20,xlab="Day",ylab=paste("log10( N+",founders," )"), main=paste(name," Log10 Scaled Trend"));
-abline(lm(log10(x$N+founders)~x$T),col=2);
+plot(x$T,log10(x$N+founders),pch=20,xlab="Day",ylab=paste("log10( N+",founders," )"), main=paste(name," Log10 Scaled Trend"),lwd=2,cex=2);
+abline(lm(log10(x$N+founders)~x$T),col=2,lwd=2);
 legend("topleft", paste("R2=",sprintf("%.4f",model_r2)));
 dev.off();
 
@@ -30,10 +30,10 @@ b=m$coefficients[1];
 for(i in 1:length(t)){
 	if(i<=length(x$T)){ t[i]=x$T[i]; }
 	else{ t[i]=t[i-1]+1; }
-	n[i]=10^(a*t[i]+b);
+	n[i]=10^(a*t[i]+b)-founders;
 }
 png("InfectionPrediction.png",width=768,height=512);
-plot(t,n,type='l',col=2,xlab="Day",ylab="Number of Diagnoses",main=paste(name," Infection Number Prediction"));
-points(x$T,x$N,pch=20);
+plot(t,n,type='l',col=2,xlab="Day",ylab="Number of Diagnoses",main=paste(name," Infection Number Prediction"),lwd=2);
+points(x$T,x$N,pch=20,lwd=2,cex=2);
 legend("topleft", paste("tenfold every ",sprintf("%.1f",1/a), " days"));
 dev.off();
