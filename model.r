@@ -1,4 +1,4 @@
-name="Outside-China"
+name="Corona-Norway"
 N=scan("data.txt");
 T=1:length(N);
 mi=1-min(N);
@@ -22,8 +22,9 @@ abline(lm(log10(N+founders)~T),col=2,lwd=2);
 legend("topleft", paste("R2=",sprintf("%.4f",model_r2)));
 dev.off();
 
-t=1:(length(T)+7);
-n=1:(length(N)+7);
+daysfuture=28;
+t=1:(length(T)+daysfuture);
+n=1:(length(N)+daysfuture);
 m=lm(log10(N+founders)~T);
 a=m$coefficients[2];
 b=m$coefficients[1];
@@ -33,6 +34,8 @@ for(i in 1:length(t)){
 	else{ t[i]=t[i-1]+1; }
 	n[i]=10^(a*t[i]+b)-founders;
 }
+predict <- cbind(t,n);
+write.table(predict, file = "predict.txt", sep = "\t");
 png("InfectionPrediction.png",width=768,height=512);
 plot(t,n,type='l',col=2,xlab="Day",ylab="Number of Diagnoses",main=paste(name," Infection Number Prediction"),lwd=2);
 points(T,N,pch=20,lwd=2,cex=2);
