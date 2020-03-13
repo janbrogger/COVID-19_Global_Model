@@ -22,7 +22,7 @@ abline(lm(log10(N+founders)~T),col=2,lwd=2);
 legend("topleft", paste("R2=",sprintf("%.4f",model_r2)));
 dev.off();
 
-daysfuture=28;
+daysfuture=7;
 t=1:(length(T)+daysfuture);
 n=1:(length(N)+daysfuture);
 m=lm(log10(N+founders)~T);
@@ -35,7 +35,7 @@ for(i in 1:length(t)){
 	n[i]=10^(a*t[i]+b)-founders;
 }
 predict <- cbind(t,n);
-write.table(predict, file = "predict.txt", sep = "\t");
+write.table(formatC(predict, format="f", digits=3), file = "predict.txt", sep = "\t" );
 png("InfectionPrediction.png",width=768,height=512);
 plot(t,n,type='l',col=2,xlab="Day",ylab="Number of Diagnoses",main=paste(name," Infection Number Prediction"),lwd=2);
 points(T,N,pch=20,lwd=2,cex=2);
